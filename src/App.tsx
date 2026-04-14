@@ -1,8 +1,10 @@
+
 import { Suspense, useMemo } from 'react'
 import { Canvas } from '@react-three/fiber'
 import FestivalPlaza from './components/FestivalPlaza'
 import OverlayUI from './components/OverlayUI'
 import LoadingScreen from './components/LoadingScreen'
+
 
 function App() {
   const isMobile = useMemo(() => window.innerWidth < 768, [])

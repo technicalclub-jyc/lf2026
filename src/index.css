@@ -303,6 +303,12 @@ body {
   50% { opacity: 0; }
 }
 
+.loading-gif {
+  width: 150px;
+  height: auto;
+  margin-bottom: 15px;
+}
+
 /* ============ SCROLL CTA ============ */
 .scroll-cta {
   position: absolute;
