@@ -180,11 +180,21 @@ export default function OverlayUI() {
 
   const filteredDays = activeDay ? [activeDay] : days
 
+   const [navScrolled, setNavScrolled] = useState(false);
+
+  useEffect(() => {
+    function onScroll() {
+      setNavScrolled(window.scrollY > 50);
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
     <>
       {/* ===== HERO OVERLAY ===== */}
       <div className="hero-overlay">
-        <nav className="nav-bar">
+        <nav className={`nav-bar ${navScrolled ? "nav-bar--scrolled" : ""}`}>
           <div className="nav-logos">
             <a href="https://jyc.co.in" target="_blank" rel="noopener noreferrer">
               <img src="/images/jyc-logo-white.png" alt="JYC" className="nav-logo-img" />
