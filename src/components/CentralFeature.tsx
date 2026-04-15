@@ -102,12 +102,12 @@ function HeroTitle() {
   }, [texture])
 
   const isMobile = viewport.width < 10
-  const h = isMobile ? 2.8 : 5
+  const h = isMobile ? 2.0 : 5
   const w = h * aspect
 
   return (
     <Float speed={1.5} rotationIntensity={0.01} floatIntensity={0.15}>
-      <mesh position={[0, isMobile ? 2.5 : 2.5, isMobile ? 5 : 2]}>
+      <mesh position={[0, isMobile ? 2.8 : 2.5, isMobile ? 5 : 2]}>
         <planeGeometry args={[w, h]} />
         <meshBasicMaterial map={texture} transparent toneMapped={false} side={THREE.DoubleSide} />
       </mesh>
@@ -121,11 +121,19 @@ function HeroTitle() {
 function DiscoBallWithLight({ pos, mobileSf }: { pos: [number, number, number]; mobileSf: number }) {
   const groupRef = useRef<THREE.Group>(null!)
   const lightRef = useRef<THREE.PointLight>(null)
+  const { isMobile, sf } = useResponsive()
   const { scene, animations } = useGLTF('/models/free_realistic_disco_ball.glb')
   const clone = useMemo(() => scene.clone(), [scene])
   const { actions } = useAnimations(animations, groupRef)
 
-  const adjustedPos: [number, number, number] = [pos[0] * mobileSf, pos[1], pos[2] * mobileSf]
+  // On mobile, we might want to bring them closer to the center or higher up
+  const xOffset = isMobile ? 0.6 : 1.0
+  const yOffset = isMobile ? 1.2 : 0
+  const adjustedPos: [number, number, number] = [
+    pos[0] * sf * xOffset,
+    pos[1] + yOffset,
+    pos[2] * sf
+  ]
 
   useEffect(() => { Object.values(actions).forEach((a) => a?.play()) }, [actions])
 
@@ -140,12 +148,12 @@ function DiscoBallWithLight({ pos, mobileSf }: { pos: [number, number, number]; 
     }
   })
 
-  const ballScale = 0.02 * mobileSf
+  const ballScale = 0.02 * sf * (isMobile ? 0.8 : 1.0)
 
   return (
     <group position={adjustedPos}>
-      <mesh position={[0, 2.5, 0]}>
-        <cylinderGeometry args={[0.01, 0.01, 5]} />
+      <mesh position={[0, isMobile ? 1.5 : 2.5, 0]}>
+        <cylinderGeometry args={[0.01, 0.01, isMobile ? 3 : 5]} />
         <meshBasicMaterial color="#0f172a" />
       </mesh>
       <group ref={groupRef} scale={ballScale}>
@@ -168,15 +176,15 @@ function DJFrankWithConsole() {
   const { scene: cScene, animations: cAnims } = useGLTF('/models/flex_dj_console.glb')
   const cClone = useMemo(() => cScene.clone(), [cScene])
   const { actions: cActions } = useAnimations(cAnims, consoleRef)
-  const { isMobile } = useResponsive()
+  const { isMobile, sf } = useResponsive()
 
   useEffect(() => {
     Object.values(fActions).forEach((a) => a?.play())
     Object.values(cActions).forEach((a) => a?.play())
   }, [fActions, cActions])
 
-  const frankBaseScale = isMobile ? 1.4 : 2.5
-  const consoleBaseScale = isMobile ? 1.3 : 2.0
+  const frankBaseScale = (isMobile ? 1.0 : 2.5) * sf
+  const consoleBaseScale = (isMobile ? 0.9 : 2.0) * sf
   const frankX = 0
   const consoleX = 0
 
@@ -184,8 +192,8 @@ function DJFrankWithConsole() {
     const t = state.clock.elapsedTime
     if (frankRef.current) {
       frankRef.current.position.set(
-        frankX,
-        -2.8 + Math.sin(t * 1.2) * 0.04,
+        frankX * sf,
+        -2.4 + Math.sin(t * 1.2) * 0.04,
         -1.5,
       )
       frankRef.current.rotation.y = 0
@@ -193,8 +201,8 @@ function DJFrankWithConsole() {
     }
     if (consoleRef.current) {
       consoleRef.current.position.set(
-        consoleX,
-        -3.2 + Math.sin(t * 1.4) * 0.02,
+        consoleX * sf,
+        -2.9 + Math.sin(t * 1.4) * 0.02,
         3.0,
       )
       consoleRef.current.scale.setScalar(consoleBaseScale)
