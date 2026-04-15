@@ -13,6 +13,7 @@ interface ItineraryItem {
   image?: string
 }
 
+// @ts-ignore
 const ITINERARY: ItineraryItem[] = [
   { date: '24 April', day: 'Friday', performer: 'Snehi Live', time: '8 PM Onwards', venue: 'BBC', type: 'concert', image: '/images/artists/snehi-live.webp' },
   { date: '24 April', day: 'Friday', performer: 'DJ Tuhina', time: '8 PM Onwards', venue: 'BBC', type: 'dj', image: '/images/artists/dj-tuhina.webp' },
@@ -26,6 +27,7 @@ const ITINERARY: ItineraryItem[] = [
   { date: '26 April', day: 'Sunday', performer: 'DJ Ana', time: '8 PM Onwards', venue: 'BBC', type: 'dj', image: '/images/artists/dj-ana.webp' },
 ]
 
+// @ts-ignore
 const TYPE_COLORS: Record<string, string> = {
   concert: '#ec4899',
   dj: '#eab308',
@@ -35,6 +37,7 @@ const TYPE_COLORS: Record<string, string> = {
   singer: '#f43f5e'
 }
 
+// @ts-ignore
 const TYPE_LABELS: Record<string, string> = {
   concert: 'Live Performance',
   dj: 'DJ Set',
@@ -155,7 +158,9 @@ function scrollTo(id: string) {
    ========================================================= */
 export default function OverlayUI() {
   const countdown = useCountdown()
+  // @ts-ignore
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  // @ts-ignore
   const [activeDay, setActiveDay] = useState<string | null>(null)
   const [heroFade, setHeroFade] = useState(1)
   const pad = (n: number) => String(n).padStart(2, '0')
@@ -176,10 +181,14 @@ export default function OverlayUI() {
     setMobileMenuOpen(false)
   }, [])
 
+  // @ts-ignore
   const days = ['24 April', '25 April', '26 April']
+  // @ts-ignore
   const dayNames: Record<string, string> = { '24 April': 'Friday', '25 April': 'Saturday', '26 April': 'Sunday' }
+  // @ts-ignore
   const dayLabels: Record<string, string> = { '24 April': 'DAY 1', '25 April': 'DAY 2', '26 April': 'DAY 3' }
 
+  // @ts-ignore
   const filteredDays = activeDay ? [activeDay] : days
 
   return (
@@ -317,6 +326,8 @@ export default function OverlayUI() {
             <div className="itin-timeline">
               {filteredDays.map((date, dayIdx) => {
                 const dayItems = ITINERARY.filter((i) => i.date === date)
+                const isComingSoon = date !== '24 April'
+
                 return (
                   <div key={date} className="itin-day-block reveal-item" data-delay={String(300 + dayIdx * 150)}>
                     {/* Day header */}
@@ -333,49 +344,56 @@ export default function OverlayUI() {
 
                     {/* Performance cards */}
                     <div className="itin-performances">
-                      {dayItems.map((item, idx) => (
-                        <div
-                          key={idx}
-                          className="itin-perf-card"
-                          data-delay={String(400 + dayIdx * 150 + idx * 80)}
-                          style={{
-                            '--accent': TYPE_COLORS[item.type],
-                          } as React.CSSProperties}
-                        >
-                          {/* Artist image */}
-                          {item.image && (
-                            <div className="itin-perf-image">
-                              <img
-  src={item.image}
-  alt={item.performer}
-  loading="lazy"
-  className={
-  item.performer === 'Naptune'
-    ? 'fit-center'
-    : item.performer === 'Kavi Samelan' ||
-    item.performer === 'Harmony of Pine'
-    ? 'fit-bottom'
-    : 'fit-bottom'
-}
-/>
-                            </div>
-                          )}
-
-                          <div className="itin-perf-content">
-                            <div className="itin-perf-badge" style={{ background: TYPE_COLORS[item.type] }}>
-                              {TYPE_LABELS[item.type]}
-                            </div>
-                            <h3 className="itin-perf-name">{item.performer}</h3>
-                            <div className="itin-perf-meta">
-                              <span className="itin-perf-time">{item.time}</span>
-                              <span className="itin-perf-venue">{item.venue}</span>
-                            </div>
-                          </div>
-
-                          {/* Decorative accent stripe */}
-                          <div className="itin-perf-stripe" style={{ background: TYPE_COLORS[item.type] }} />
+                      {isComingSoon ? (
+                        <div className="itin-perf-card" style={{ '--accent': '#666', padding: '2rem', display: 'flex', justifyContent: 'center', alignItems: 'center' } as React.CSSProperties}>
+                          <h3 className="itin-perf-name" style={{ margin: 0, fontSize: '1.5rem', opacity: 0.7 }}>COMING SOON</h3>
+                          <div className="itin-perf-stripe" style={{ background: '#666' }} />
                         </div>
-                      ))}
+                      ) : (
+                        dayItems.map((item, idx) => (
+                          <div
+                            key={idx}
+                            className="itin-perf-card"
+                            data-delay={String(400 + dayIdx * 150 + idx * 80)}
+                            style={{
+                              '--accent': TYPE_COLORS[item.type],
+                            } as React.CSSProperties}
+                          >
+                            {/* Artist image */}
+                            {item.image && (
+                              <div className="itin-perf-image">
+                                <img
+                                  src={item.image}
+                                  alt={item.performer}
+                                  loading="lazy"
+                                  className={
+                                    item.performer === 'Naptune'
+                                      ? 'fit-center'
+                                      : item.performer === 'Kavi Samelan' ||
+                                        item.performer === 'Harmony of Pine'
+                                      ? 'fit-bottom'
+                                      : 'fit-bottom'
+                                  }
+                                />
+                              </div>
+                            )}
+
+                            <div className="itin-perf-content">
+                              <div className="itin-perf-badge" style={{ background: TYPE_COLORS[item.type] }}>
+                                {TYPE_LABELS[item.type]}
+                              </div>
+                              <h3 className="itin-perf-name">{item.performer}</h3>
+                              <div className="itin-perf-meta">
+                                <span className="itin-perf-time">{item.time}</span>
+                                <span className="itin-perf-venue">{item.venue}</span>
+                              </div>
+                            </div>
+
+                            {/* Decorative accent stripe */}
+                            <div className="itin-perf-stripe" style={{ background: TYPE_COLORS[item.type] }} />
+                          </div>
+                        ))
+                      )}
                     </div>
                   </div>
                 )
