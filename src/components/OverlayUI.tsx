@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
+import FacultyTambolaRegister from './FacultyTambolaRegister.tsx'
 
 /* =========================================================
    ITINERARY DATA (from official poster)
@@ -160,6 +161,7 @@ export default function OverlayUI() {
   const countdown = useCountdown()
   // @ts-ignore
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [tambolaRegisterOpen, setTambolaRegisterOpen] = useState(false)
   // @ts-ignore
   const [activeDay, setActiveDay] = useState<string | null>(null)
   const [heroFade, setHeroFade] = useState(1)
@@ -210,6 +212,7 @@ export default function OverlayUI() {
             <button className="nav-btn" onClick={() => handleNav('itinerary')}>Itinerary</button>
             <button className="nav-btn nav-btn--pink" onClick={() => handleNav('memories')}>Memories</button>
             <button className="nav-btn nav-btn--purple" onClick={() => handleNav('sponsors')}>Sponsors</button>
+            <button className="nav-btn nav-btn--pink" onClick={() => setTambolaRegisterOpen(true)}>Tambola</button>
           </div>
 
           <button
@@ -488,6 +491,9 @@ export default function OverlayUI() {
           ))}
         </div>
       )}
+
+      {/* ===== FACULTY TAMBOLA REGISTER MODAL ===== */}
+      <FacultyTambolaRegister isOpen={tambolaRegisterOpen} onClose={() => setTambolaRegisterOpen(false)} />
     </>
   )
 }
