@@ -11,19 +11,20 @@ interface ItineraryItem {
   venue: string
   type: 'concert' | 'dj' | 'poetry' | 'comedy' | 'band' | 'singer'
   image?: string
+  link?: string
 }
 
 const ITINERARY: ItineraryItem[] = [
-  { date: '24 April', day: 'Friday', performer: 'Snehi Live', time: '8 PM Onwards', venue: 'BBC', type: 'concert', image: '/images/artists/snehi-live.webp' },
-  { date: '24 April', day: 'Friday', performer: 'DJ Tuhina', time: '8 PM Onwards', venue: 'BBC', type: 'dj', image: '/images/artists/dj-tuhina.webp' },
+  { date: '24 April', day: 'Friday', performer: 'Snehi Live', time: '8 PM Onwards', venue: 'BBC', type: 'concert', image: '/images/artists/snehi-live.webp', link: 'https://www.instagram.com/p/DWlytUXk2V8/' },
+  { date: '24 April', day: 'Friday', performer: 'DJ Tuhina', time: '8 PM Onwards', venue: 'BBC', type: 'dj', image: '/images/artists/dj-tuhina.webp', link: 'https://www.instagram.com/p/DQnynP2EQRA/?hl=en' },
   { date: '25 April', day: 'Saturday', performer: 'Kavi Samelan', time: '8 PM Onwards', venue: 'Auditorium', type: 'poetry', image: '/images/artists/kavi-samelan.webp' },
-  { date: '25 April', day: 'Saturday', performer: 'Naptune', time: '8 PM Onwards', venue: 'BBC', type: 'band', image: '/images/artists/neptune.webp' },
-  { date: '25 April', day: 'Saturday', performer: 'Anuj Sharma', time: '8 PM Onwards', venue: 'BBC', type: 'singer', image: '/images/artists/anuj-sharma.webp' },
-  { date: '25 April', day: 'Saturday', performer: 'DJ Kikie', time: '8 PM Onwards', venue: 'BBC', type: 'dj', image: '/images/artists/dj-kikie.webp' },
-  { date: '26 April', day: 'Sunday', performer: 'Rajat Chauhan', time: '8 PM Onwards', venue: 'BBC', type: 'comedy', image: '/images/artists/rajat-chauhan.webp' },
-  { date: '26 April', day: 'Sunday', performer: 'Harmony of Pine', time: '8 PM Onwards', venue: 'BBC', type: 'band', image: '/images/artists/harmony-of-pine.webp' },
-  { date: '26 April', day: 'Sunday', performer: 'Simar Kaur', time: '8 PM Onwards', venue: 'BBC', type: 'concert', image: '/images/artists/simar-kaur.webp' },
-  { date: '26 April', day: 'Sunday', performer: 'DJ Ana', time: '8 PM Onwards', venue: 'BBC', type: 'dj', image: '/images/artists/dj-ana.webp' },
+  { date: '25 April', day: 'Saturday', performer: 'Naptune', time: '8 PM Onwards', venue: 'BBC', type: 'band', image: '/images/artists/neptune.webp', link: 'https://www.instagram.com/p/DF0prm6y7CB/' },
+  { date: '25 April', day: 'Saturday', performer: 'Anuj Sharma', time: '8 PM Onwards', venue: 'BBC', type: 'singer', image: '/images/artists/anuj-sharma.webp', link: 'https://www.instagram.com/p/DW0fV3AEiCa/' },
+  { date: '25 April', day: 'Saturday', performer: 'DJ Kikie', time: '8 PM Onwards', venue: 'BBC', type: 'dj', image: '/images/artists/dj-kikie.webp', link: 'https://www.instagram.com/p/DWzSpYFDGWw/' },
+  { date: '26 April', day: 'Sunday', performer: 'Rajat Chauhan', time: '8 PM Onwards', venue: 'BBC', type: 'comedy', image: '/images/artists/rajat-chauhan.webp', link: 'https://www.instagram.com/officialrajatchauhan/' },
+  { date: '26 April', day: 'Sunday', performer: 'Harmony of Pine', time: '8 PM Onwards', venue: 'BBC', type: 'band', image: '/images/artists/harmony-of-pine.webp', link: 'https://www.instagram.com/himachalpradeshpoliceorchestra/' },
+  { date: '26 April', day: 'Sunday', performer: 'Simar Kaur', time: '8 PM Onwards', venue: 'BBC', type: 'concert', image: '/images/artists/simar-kaur.webp', link: 'https://www.instagram.com/p/DVgLN6ZEWhN/' },
+  { date: '26 April', day: 'Sunday', performer: 'DJ Ana', time: '8 PM Onwards', venue: 'BBC', type: 'dj', image: '/images/artists/dj-ana.webp', link: 'https://www.instagram.com/p/C-Rgn8QpcMD/' },
 ]
 
 const TYPE_COLORS: Record<string, string> = {
@@ -345,19 +346,37 @@ export default function OverlayUI() {
                           {/* Artist image */}
                           {item.image && (
                             <div className="itin-perf-image">
-                              <img
-  src={item.image}
-  alt={item.performer}
-  loading="lazy"
-  className={
-  item.performer === 'Naptune'
-    ? 'fit-center'
-    : item.performer === 'Kavi Samelan' ||
-    item.performer === 'Harmony of Pine'
-    ? 'fit-bottom'
-    : 'fit-bottom'
-}
-/>
+                              {item.link ? (
+                                <a href={item.link} target="_blank" rel="noopener noreferrer" style={{ cursor: 'pointer' }}>
+                                  <img
+    src={item.image}
+    alt={item.performer}
+    loading="lazy"
+    className={
+    item.performer === 'Naptune'
+      ? 'fit-center'
+      : item.performer === 'Kavi Samelan' ||
+      item.performer === 'Harmony of Pine'
+      ? 'fit-bottom'
+      : 'fit-bottom'
+  }
+  />
+                                </a>
+                              ) : (
+                                <img
+    src={item.image}
+    alt={item.performer}
+    loading="lazy"
+    className={
+    item.performer === 'Naptune'
+      ? 'fit-center'
+      : item.performer === 'Kavi Samelan' ||
+      item.performer === 'Harmony of Pine'
+      ? 'fit-bottom'
+      : 'fit-bottom'
+  }
+  />
+                              )}
                             </div>
                           )}
 
