@@ -61,6 +61,17 @@ const SPONSORS = [
   { name: 'Black Crab', logo: '/images/sponsors/blackcrab.png' },
   { name: 'Kaku', logo: '/images/sponsors/kaku.png' },
   { name: 'PNB', logo: '/images/sponsors/pnb.png' },
+  { name: 'Abhibus', logo: '/images/sponsors/abhibus.webp' },
+  { name: 'CarnivalZone', logo: '/images/sponsors/CarnivalZone.webp' },
+  { name: 'RedBus', logo: '/images/sponsors/RedBusLogo.webp' },
+  { name: 'khaogali', logo: '/images/sponsors/khaogali.png' },
+  { name: 'Tasveer', logo: '/images/sponsors/Tasveer.webp' },
+  { name: 'KAEORN', logo: '/images/sponsors/KAEORN.png' },
+  { name: 'LitTeaChokha', logo: '/images/sponsors/LitTeaChokha.webp' },
+  { name: 'YellowLeaf', logo: '/images/sponsors/YellowLeaf.webp' },
+  { name: 'BelgianWaffle', logo: '/images/sponsors/BelgianWaffleLogo.jpeg' },
+  { name: 'FreshBasket', logo: '/images/sponsors/FreshBasket.jpeg' },
+  
 ]
 
 /* =========================================================
